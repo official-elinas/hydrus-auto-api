@@ -1,1 +1,10 @@
 requests
+opencv-python
+
+tensorflow>=2.7.0
+tensorflow-io>=0.22.0
+Click>=7.0
+numpy>=1.16.2
+# requests>=2.22.0
+scikit-image>=0.15.0
+six>=1.13.0

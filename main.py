@@ -113,9 +113,15 @@ for image in image_files:
             # print(f'Response: {req.content}')
             # print(json.dumps(tag_struct, indent=4))
 
+
+
 for image in image_files:
     print(f' Image tagged and imported: {image}')
     images = Path(f'{os.getcwd()}/images/{image}')
     tag_files = Path(f'{os.getcwd()}/images/{image.replace(".png", "")}.txt')
     shutil.move(images, Path(f"{os.getcwd()}/imported"))
     shutil.move(tag_files, Path(f"{os.getcwd()}/imported"))
+
+
+def deep_db_tagging():
+    pass
