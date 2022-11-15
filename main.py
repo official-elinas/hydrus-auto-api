@@ -3,9 +3,13 @@ import json
 import re
 import os
 import shutil
+import json
+import os
+import subprocess
 
 import requests as requests
-
+import deepdanbooru as dd
+from deepdanbooru.commands import evaluate_image
 from pathlib import Path
 
 
@@ -18,9 +22,6 @@ except KeyError:
 
 secret_key = {'Hydrus-Client-API-Access-Key': key}
 API_ADDR = 'http://127.0.0.1:45869'
-# req = requests.get(f'{API_ADDR}/get_services', headers=secret_key)
-# pretty = json.dumps(req.json(), indent=4)
-# print(pretty)
 
 # support for other filetypes too, if you're odd sorry.
 file_count = int(len(fnmatch.filter(os.listdir('images'), '*.*')) / 2)
@@ -33,6 +34,15 @@ for file in os.listdir("images"):
         tag_files.append(file)
     else:
         image_files.append(file)
+
+model_tag_list = []
+model_tags = str(Path(fr"{os.getcwd()}/deepdanbooru/tags-general.txt"))
+with open(model_tags) as tags:
+    ddb_tags = tags.read()
+    ddb_tags = ddb_tags.split('\n')
+    model_tag_list.append(ddb_tags)
+
+model = dd.project.load_model_from_project(str(Path(f"{os.getcwd()}/deepdanbooru/project")), compile_model=False)
 
 for image in image_files:
     # file_path = {"path": fr"{os.getcwd()}\images\{image}"}
@@ -98,7 +108,6 @@ for image in image_files:
         if "Negative prompt:" in tags['negative_tags'][0]:
             neg_tags = tags['negative_tags'][0].replace('Negative prompt:', '')
             tag_struct['service_names_to_tags']['my tags'].append(f'negative_tags:{neg_tags.strip()}')
-            # print(neg_tags)
         else:
             tag_struct['service_names_to_tags']['my tags'].append(f"negative_tags:{tags['negative_tags'][0].strip()}")
 
@@ -107,13 +116,16 @@ for image in image_files:
             to_add = (tmp_ai.replace(" ", ""))
             tag_struct['service_names_to_tags']['my tags'].append(to_add)
 
+        for tag, score in evaluate_image(image_input=str(Path(f"{os.getcwd()}/images/{image}")), model=model,
+                                         tags=model_tag_list[0],
+                                         threshold=0.55):
+            # print(f'Tag: {tag}')
+            # print(f'Score: {score}')
+            tag_struct['service_names_to_tags']['my tags'].append(tag)
+
         req = requests.post(f'{API_ADDR}/add_tags/add_tags', headers=secret_key, json=tag_struct)
         if req.ok:
             print('Successfully tagged file.')
-            # print(f'Response: {req.content}')
-            # print(json.dumps(tag_struct, indent=4))
-
-
 
 for image in image_files:
     print(f' Image tagged and imported: {image}')
@@ -121,7 +133,3 @@ for image in image_files:
     tag_files = Path(f'{os.getcwd()}/images/{image.replace(".png", "")}.txt')
     shutil.move(images, Path(f"{os.getcwd()}/imported"))
     shutil.move(tag_files, Path(f"{os.getcwd()}/imported"))
-
-
-def deep_db_tagging():
-    pass
