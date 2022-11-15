@@ -30,6 +30,7 @@ Go to settings and check the following to create tag.txt files when you generate
 - [x] Fix unix paths
 - [x] Integrate deepdanbooru tagging as an *optional* feature (for now)
 - [ ] Character tags
+- [ ] Tagging older images without tag.txt files
 - [ ] Implement args with options
 - [ ] Support exif tagging
 - [ ] Add additional AI detail tags
