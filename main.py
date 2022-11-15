@@ -1,5 +1,5 @@
+import argparse
 import fnmatch
-import json
 import re
 import os
 import shutil
@@ -12,6 +12,11 @@ import deepdanbooru as dd
 from deepdanbooru.commands import evaluate_image
 from pathlib import Path
 
+
+# parser = argparse.ArgumentParser()
+# parser.add_argument('-in', '--input_dir', type=str, required=True, help='Input directory to all of your images')
+# parser.add_argument('-out', '--output_dir', type=str, required=True, help='Output directory to save your images')
+# args = parser.parse_args()
 
 # Get your client access key under
 # "services" -> "review services" -> "client api" tab -> add a client and click "copy api access key"
@@ -128,8 +133,12 @@ for image in image_files:
             print('Successfully tagged file.')
 
 for image in image_files:
-    print(f' Image tagged and imported: {image}')
+    print(f'Image moved and imported: {image}')
     images = Path(f'{os.getcwd()}/images/{image}')
     tag_files = Path(f'{os.getcwd()}/images/{image.replace(".png", "")}.txt')
+
+    if not os.path.exists(Path(f'{os.getcwd()}/imported')):
+        print('path does not exist')
+        os.makedirs(f'{os.getcwd()}/imported')
     shutil.move(images, Path(f"{os.getcwd()}/imported"))
     shutil.move(tag_files, Path(f"{os.getcwd()}/imported"))
