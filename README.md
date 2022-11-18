@@ -16,6 +16,13 @@ Go to settings and check the following to create tag.txt files when you generate
 3. After processing they will go to `/imported` if the folder has not been created already
 4. You can find them in hydrus easily by using the automatically added namespace - `ai:true` in the search bar
 
+## What is Hydrus?
+> The hydrus network client is a desktop application written for Anonymous and other internet enthusiasts with large media collections. It organises your files into an internal database and browses them with tags instead of folders, a little like a booru on your desktop. Tags and files can be anonymously shared through custom servers that any user may run. Everything is free, nothing phones home, and the source code is included with the release. It is developed mostly for Windows, but builds for Linux and macOS are available (perhaps with some limitations, depending on your situation).
+Source: https://hydrusnetwork.github.io/hydrus/
+
+If you are not familiar with the application, you can read through the docs or download the latest release here: https://github.com/hydrusnetwork/hydrus/releases
+
+Hydrus is not just a tagging solution, but supports downloading from numerous sites as well as a PTR (Public Tag Repo) that matches hashes and will automatically tag images you already have that are originals and not resized.
 ## Setup on Hydrus Client API
 1. Get your client access key under "services"
 2. "review services"
