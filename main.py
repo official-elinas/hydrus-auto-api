@@ -1,5 +1,6 @@
 import argparse
 import fnmatch
+import pathlib
 import re
 import os
 import shutil
@@ -32,6 +33,7 @@ API_ADDR = 'http://127.0.0.1:45869'
 file_count = int(len(fnmatch.filter(os.listdir('images'), '*.*')) / 2)
 print(f'Total filecount: {file_count}')
 
+filetypes = ['.png', '.jpg', '.jpeg', '.webp']
 tag_files = []
 image_files = []
 for file in os.listdir("images"):
@@ -41,7 +43,8 @@ for file in os.listdir("images"):
         image_files.append(file)
 
 model_tag_list = []
-model_tags = str(Path(fr"{os.getcwd()}/deepdanbooru/tags-general.txt"))
+# TODO - changed from tags-general.txt
+model_tags = str(Path(fr"{os.getcwd()}/deepdanbooru/tags_all.txt"))
 with open(model_tags) as tags:
     ddb_tags = tags.read()
     ddb_tags = ddb_tags.split('\n')
@@ -103,12 +106,20 @@ for image in image_files:
         }
 
         # split the positive tags and them
-        for new_tag in tags['positive_tags']:
-            all_mod_tags = new_tag.split(',')
-            for single_tag in all_mod_tags:
-                # TODO: this is alphanumeric ONLY - need to support more formats without fucking shit up
-                new = re.sub(r'\W+', ' ', single_tag)
-                tag_struct['service_names_to_tags']['my tags'].append(new.strip())
+        all_mod_tags = re.split(" |,", str(tags['positive_tags'][0]).strip())
+        print(f"Mod tags: {all_mod_tags}")
+        for single_tag in all_mod_tags:
+            # TODO: this is alphanumeric ONLY - need to support more formats without fucking shit up
+            new = re.sub(r'\W+', ' ', single_tag)
+            tag_struct['service_names_to_tags']['my tags'].append(new.strip())
+        # print(tag_struct['service_names_to_tags'])
+        # for new_tag in tags['positive_tags']:
+        #     all_mod_tags = new_tag.split(',')
+        #     all_mod_tags = re.split(' |', new_tag)
+        #     for single_tag in all_mod_tags:
+        #         # TODO: this is alphanumeric ONLY - need to support more formats without fucking shit up
+        #         new = re.sub(r'\W+', ' ', single_tag)
+        #         tag_struct['service_names_to_tags']['my tags'].append(new.strip())
 
         if "Negative prompt:" in tags['negative_tags'][0]:
             neg_tags = tags['negative_tags'][0].replace('Negative prompt:', '')
