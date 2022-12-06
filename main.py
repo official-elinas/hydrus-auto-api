@@ -159,7 +159,14 @@ for image in image_files:
 
         req = requests.post(f'{API_ADDR}/add_tags/add_tags', headers=secret_key, json=tag_struct)
         if req.ok:
+            # TODO: add error handling for moving
             print('Successfully tagged file.')
+            image_file = Path(f'{os.getcwd()}/images/{image}')
+            # use the image file name as a base to move the tag file
+            tag_file = Path(f'{os.getcwd()}/images/{image.replace(f".{current_file_type_ext}", "")}.txt')
+            shutil.move(image_file, Path(f"{os.getcwd()}/imported"))
+            shutil.move(tag_file, Path(f"{os.getcwd()}/imported"))
+            print(f'Image and tag moved and imported: {image}')
 
 for image in image_files:
     print(f'Image moved and imported: {image}')
