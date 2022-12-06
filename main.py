@@ -106,20 +106,22 @@ for image in image_files:
         }
 
         # split the positive tags and them
-        all_mod_tags = re.split(" |,", str(tags['positive_tags'][0]).strip())
-        print(f"Mod tags: {all_mod_tags}")
-        for single_tag in all_mod_tags:
-            # TODO: this is alphanumeric ONLY - need to support more formats without fucking shit up
-            new = re.sub(r'\W+', ' ', single_tag)
-            tag_struct['service_names_to_tags']['my tags'].append(new.strip())
-        # print(tag_struct['service_names_to_tags'])
-        # for new_tag in tags['positive_tags']:
-        #     all_mod_tags = new_tag.split(',')
-        #     all_mod_tags = re.split(' |', new_tag)
-        #     for single_tag in all_mod_tags:
-        #         # TODO: this is alphanumeric ONLY - need to support more formats without fucking shit up
-        #         new = re.sub(r'\W+', ' ', single_tag)
-        #         tag_struct['service_names_to_tags']['my tags'].append(new.strip())
+        positive_tags = str(tags['positive_tags'][0])
+        # print(f'Positive before processing tags: {positive_tags}')
+        new_tag_str = positive_tags.replace(')', '').replace('(', '')
+        tmp_pos_tag_arr = new_tag_str.split(',')
+        new_pos_tag_arr = []
+        for tag in tmp_pos_tag_arr:
+            if '_' in tag:
+                tag = tag.strip().split()
+                for underscore_tag in tag:
+                    underscore_tag = underscore_tag.replace('_', ' ')
+                    # print(f'Underscore tag: {underscore_tag}')
+                    new_pos_tag_arr.append(underscore_tag)
+            else:
+                new_pos_tag_arr.append(tag)
+        for modified_tag in new_pos_tag_arr:
+            tag_struct['service_names_to_tags']['my tags'].append(modified_tag.strip())
 
         if "Negative prompt:" in tags['negative_tags'][0]:
             neg_tags = tags['negative_tags'][0].replace('Negative prompt:', '')
@@ -137,7 +139,13 @@ for image in image_files:
                                          threshold=0.55):
             # print(f'Tag: {tag}')
             # print(f'Score: {score}')
-            tag_struct['service_names_to_tags']['my tags'].append(tag)
+            underscore_replaced_tag = tag.replace('_', ' ')
+            # DO not add dupe tags
+            if underscore_replaced_tag not in tag_struct['service_names_to_tags']['my tags']:
+                tag_struct['service_names_to_tags']['my tags'].append(underscore_replaced_tag)
+
+        # print(json.dumps(tag_struct, indent=4))
+        # print(f"Num tags: {len(tag_struct['service_names_to_tags']['my tags'])}")
 
         req = requests.post(f'{API_ADDR}/add_tags/add_tags', headers=secret_key, json=tag_struct)
         if req.ok:
