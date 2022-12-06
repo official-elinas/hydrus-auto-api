@@ -101,7 +101,7 @@ for image in image_files:
         tag_struct = {
             "hash": curr_file_hash,
             "service_names_to_tags": {
-                "my tags": ["ai:true", f'prompt:{image.split("-")[2].replace(".png", "")}']
+                "my tags": ["ai:true", f"prompt:{str(tags['positive_tags'][0])}"]
             }
         }
 
