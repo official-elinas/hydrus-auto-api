@@ -15,8 +15,10 @@ from pathlib import Path
 
 
 # parser = argparse.ArgumentParser()
-# parser.add_argument('-in', '--input_dir', type=str, required=True, help='Input directory to all of your images')
-# parser.add_argument('-out', '--output_dir', type=str, required=True, help='Output directory to save your images')
+# parser.add_argument('-in', '--input-dir', type=str, required=True, help='Input directory to all of your images')
+# parser.add_argument('-out', '--output-dir', type=str, required=True, help='Output directory to save your images')
+# parser.add_argument('-db-th', '--ddb-threshold', type=int, required=False, const=0.55, help='Tag sensitivity
+# threshold for DeepDanbooru tags - default is 0.55 - lower is less sensitive')
 # args = parser.parse_args()
 
 # Get your client access key under
