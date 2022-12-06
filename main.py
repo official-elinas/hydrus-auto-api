@@ -33,7 +33,7 @@ API_ADDR = 'http://127.0.0.1:45869'
 file_count = int(len(fnmatch.filter(os.listdir('images'), '*.*')) / 2)
 print(f'Total filecount: {file_count}')
 
-filetypes = ['.png', '.jpg', '.jpeg', '.webp']
+filetypes = ['png', 'jpg', 'jpeg', 'webp']
 tag_files = []
 image_files = []
 for file in os.listdir("images"):
@@ -98,6 +98,18 @@ for image in image_files:
             # no hits? continue...
             continue
 
+        file_ext = ''
+        current_file_type_ext = image.split("-")[2].split(".")[-1]
+        for filetype in filetypes:
+            if filetype == current_file_type_ext:
+                # validation
+                file_ext = current_file_type_ext
+                print(f'Found valid filetype for image: {current_file_type_ext}')
+
+        if file_ext == '':
+            print(f'Invalid extension for image: {current_file_type_ext} - moving to next image')
+            continue
+
         tag_struct = {
             "hash": curr_file_hash,
             "service_names_to_tags": {
@@ -107,7 +119,6 @@ for image in image_files:
 
         # split the positive tags and them
         positive_tags = str(tags['positive_tags'][0])
-        # print(f'Positive before processing tags: {positive_tags}')
         new_tag_str = positive_tags.replace(')', '').replace('(', '')
         tmp_pos_tag_arr = new_tag_str.split(',')
         new_pos_tag_arr = []
@@ -116,7 +127,6 @@ for image in image_files:
                 tag = tag.strip().split()
                 for underscore_tag in tag:
                     underscore_tag = underscore_tag.replace('_', ' ')
-                    # print(f'Underscore tag: {underscore_tag}')
                     new_pos_tag_arr.append(underscore_tag)
             else:
                 new_pos_tag_arr.append(tag)
