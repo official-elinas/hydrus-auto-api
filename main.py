@@ -29,7 +29,11 @@ except KeyError:
 secret_key = {'Hydrus-Client-API-Access-Key': key}
 API_ADDR = 'http://127.0.0.1:45869'
 
-# support for other filetypes too, if you're odd sorry.
+# if you didn't create the imported directory it will be created
+if not os.path.exists(Path(f'{os.getcwd()}/imported')):
+    print('path does not exist')
+    os.makedirs(f'{os.getcwd()}/imported')
+
 file_count = int(len(fnmatch.filter(os.listdir('images'), '*.*')) / 2)
 print(f'Total filecount: {file_count}')
 
