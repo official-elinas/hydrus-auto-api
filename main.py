@@ -49,7 +49,6 @@ for file in os.listdir("images"):
         image_files.append(file)
 
 model_tag_list = []
-# TODO - changed from tags-general.txt
 model_tags = str(Path(fr"{os.getcwd()}/deepdanbooru/tags_all.txt"))
 with open(model_tags) as tags:
     ddb_tags = tags.read()
@@ -173,14 +172,3 @@ for image in image_files:
             shutil.move(image_file, Path(f"{os.getcwd()}/imported"))
             shutil.move(tag_file, Path(f"{os.getcwd()}/imported"))
             print(f'Image and tag moved and imported: {image}')
-
-for image in image_files:
-    print(f'Image moved and imported: {image}')
-    images = Path(f'{os.getcwd()}/images/{image}')
-    tag_files = Path(f'{os.getcwd()}/images/{image.replace(".png", "")}.txt')
-
-    if not os.path.exists(Path(f'{os.getcwd()}/imported')):
-        print('path does not exist')
-        os.makedirs(f'{os.getcwd()}/imported')
-    shutil.move(images, Path(f"{os.getcwd()}/imported"))
-    shutil.move(tag_files, Path(f"{os.getcwd()}/imported"))
