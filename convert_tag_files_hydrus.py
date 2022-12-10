@@ -20,6 +20,6 @@ for file in os.listdir(original_tags_dir):
             if ':' not in tag and tag.isascii():  # and not tag.isnumeric()
                 found_tags.append(tag)
         unique_tags = (list(dict.fromkeys(found_tags)))
-        with open(f"{os.getcwd()}/new_tag_files/{file}", 'w', encoding='utf-8') as new_tag_file:
-            print(f'Updating tags for file: {file}')
+        with open(f"{os.getcwd()}/new_tag_files/{file.split('.')[0]}.txt", 'w', encoding='utf-8') as new_tag_file:
+            print(f'Updating tags for file: {file.split(".")[0]}.txt')
             new_tag_file.write((' '.join(t for t in unique_tags)))
