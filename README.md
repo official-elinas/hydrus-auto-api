@@ -35,13 +35,10 @@ Hydrus is not just a tagging solution, but supports downloading from numerous si
 # TODO
 - [x] Move imported files into an `imported` folder
 - [x] Fix unix paths
-- [x] Integrate deepdanbooru tagging as an *optional* feature (for now)
+- [x] Integrate deepdanbooru tagging as an *optional* feature - comment it out if you don't want it
 - [x] Character tags
+- [x] Add additional AI detail tags
 - [ ] Tagging older images without tag.txt files
 - [ ] Implement args with options
 - [ ] Support exif tagging
-- [x] Add additional AI detail tags
 - [ ] Integrate into Auto's UI as a script - maybe
-- 
-# Current Limitations
-* Only supports alphanumeric characters as tags, but adds the prompt as a separate namespace called `prompt:<my really good prompt here>`
