@@ -1,18 +1,13 @@
-import argparse
 import fnmatch
-import pathlib
-import re
+import fnmatch
 import os
 import shutil
-import json
-import os
-import subprocess
-
-import requests as requests
-import deepdanbooru as dd
-from deepdanbooru.commands import evaluate_image
 from pathlib import Path
 
+import requests as requests
+
+import deepdanbooru as dd
+from deepdanbooru.commands import evaluate_image
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('-in', '--input-dir', type=str, required=True, help='Input directory to all of your images')
@@ -26,7 +21,7 @@ from pathlib import Path
 try:
     key = os.environ['SECRET_KEY']
 except KeyError:
-    raise Exception('Generate a hydrus api key please!')
+    raise Exception('Generate a hydrus api key please or add it to your environment!')
 
 secret_key = {'Hydrus-Client-API-Access-Key': key}
 API_ADDR = 'http://127.0.0.1:45869'
@@ -58,7 +53,6 @@ with open(model_tags) as tags:
 model = dd.project.load_model_from_project(str(Path(f"{os.getcwd()}/deepdanbooru/project")), compile_model=False)
 
 for image in image_files:
-    # file_path = {"path": fr"{os.getcwd()}\images\{image}"}
     tmp_path_img = Path(f"{os.getcwd()}/images/{image}")
     file_path = {"path": f'{tmp_path_img}'}
     req = requests.post(f'{API_ADDR}/add_files/add_file', headers=secret_key, json=file_path)
@@ -100,7 +94,6 @@ for image in image_files:
                         tags['ai_tags'][-1] = str(tags['ai_tags'][-1]).replace('\n', '')
                         curr_ai = True
         else:
-            # no hits? continue...
             continue
 
         file_ext = ''
@@ -118,7 +111,7 @@ for image in image_files:
         tag_struct = {
             "hash": curr_file_hash,
             "service_names_to_tags": {
-                "my tags": ["ai:true", f"prompt:{str(tags['positive_tags'][0])}"]
+                "my tags": ["ai:true", f"prompt:{tags['positive_tags'][0]}"]
             }
         }
 
