@@ -1,3 +1,0 @@
-sks kurisu_vn, ((megumin)) cosplay, wizard hat
-Negative prompt: futanari, prolapse, uterine prolapse, rectal prolapse, black tongue, scat, diapers, bad hands, bad feet, bad anatomy, extra digits, wrong hands, wrong feet, wrong anatomy, flaccid, phimosis, noise, blurry background, comic, text
-Steps: 30, Sampler: Euler a, CFG scale: 7, Seed: 1883648813, Size: 512x832, Denoising strength: 0.25, ENSD: -1, First pass size: 448x704
